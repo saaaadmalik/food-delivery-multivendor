@@ -15,20 +15,29 @@ interface location {
     accuracy: number;
 }
 
-const Map = () => {
+const Map =  () => {
     const [location, setLocation] = useState<location | null>(null);
+    const [address, setAddress] = useState<string | null >(null);
 
     function getLocationButton() {
         
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                (position) => {
+                async (position) => {
                     setLocation({
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
                         accuracy: position.coords.accuracy,
                     });
-                    
+                    const { latitude, longitude } = position.coords;
+                    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
+                    const data = await response.json();
+                    if(data && data.address){
+                        const { road, residential, suburb, city, country } = data.address;
+                        setAddress(`${road ? road + ', ' : ''}${residential ? residential +', ':''}${suburb ? suburb + ', ' : ''}${city ? city + ', ' : ''}${country}`);
+                    }else{
+                        setAddress('');
+                    }
                 },
                 (error) => {
                     console.error('Error getting location', error);
@@ -57,7 +66,8 @@ const Map = () => {
                         <input
                             type="text"
                             placeholder="Search Location..."
-                            // className="p-2 w-3/4 lg:w-2/3 sm:p-4 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={address ? address : ''}
+                            onChange={(e) => setAddress(e.target.value)}
                             className="w-2/3 sm:w-3/4 focus:outline-none"
                         />
                         <div className='flex sm:gap-2'>
@@ -72,7 +82,7 @@ const Map = () => {
                             </button>
                         </div>
                     </div>
-                    <button className='py-2 w-1/3 sm:py-4 rounded-lg bg-[#90EA93] font-bold text-sm sm:text-base'>FIND RESTURANTS</button>
+                    <button className='py-2 w-1/3 sm:py-4 rounded-lg bg-[#90EA93] font-bold text-xs sm:text-sm'>FIND RESTURANTS</button>
 
                 </div>
             </div>

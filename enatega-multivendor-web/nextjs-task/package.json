@@ -9,18 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.11.4",
+    "@react-google-maps/api": "^2.19.3",
+    "graphql": "^16.9.0",
     "next": "14.2.5",
     "primeicons": "^7.0.0",
     "primereact": "^10.8.2",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-geolocation": "^1.1.0",
+    "react-places-autocomplete": "^7.3.0",
     "react-toastify": "^10.0.5"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-places-autocomplete": "^7.2.14",
     "autoprefixer": "^10.4.20",
     "cypress": "^13.13.3",
     "eslint": "^8",
