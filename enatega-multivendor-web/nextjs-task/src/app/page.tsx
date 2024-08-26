@@ -6,11 +6,8 @@ import { ToastContainer } from "react-toastify";
 export default function Home() {
   return (
     <main>
-      <Header />
       {/* <Map /> */}
-      <Address />
-      <ToastContainer />
-
+      <Address src ="home" lat = {null} lng = {null}/>
     </main>
   );
 }
